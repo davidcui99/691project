@@ -42,8 +42,10 @@ def minute(size):
     a_timeindex = a.set_index("Time")
     a_MinBars = a_timeindex['Trade Price'].resample(size).ohlc()
     a_vol=a_timeindex['Trade Volume'].resample(size).ohlc()
+    a_vol=pd.Series(a_vol['close'],name='Trade Volume')
+    return pd.concat([a_MinBars, a_vol], axis=1)
 
-    return  a_vol
+
 
 
 
@@ -139,5 +141,3 @@ def dollar(size):
     c = {'Time':time,"open": open, "high": high, 'low':low,'close':close,'Dollar':dol}
     a_DolBars = pd.DataFrame(c, columns=['Time','open','high','low','close','Dollar'])
     return a_DolBars
-
-print(minute('1min'))
